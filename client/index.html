@@ -1,0 +1,125 @@
+<head>
+  <title>Shopping Tracker</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+
+<template name="navbar">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{pathFor 'dashboard'}}">Shopping Tracker</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="{{activeIfTemplateIs 'dashboard'}}"><a href="{{pathFor 'dashboard'}}">Home</a></li>           
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    
+</template>
+
+<template name="header">
+  <div class="container header-container">
+    <div class="page-header">
+      <div class="col-xs-6 col-sm-6">
+        {{#each user}}
+        <span>{{name}} spent</span>
+        <h5>{{formatMoney spent}}</h5>
+        {{/each}}
+      </div>
+      <div class="col-xs-6 col-sm-6">
+        <span>Total spent </span>
+        <h3>{{formatMoney totalSpent}}</h3>
+      </div>
+    </div>
+  </div>
+</template>
+<template name="shopping">
+<!-- Fixed navbar -->
+  <!-- Begin page content -->
+  <div class="container">
+    <div class="list-group">
+      <a href="#" class="list-group-item" id="new-item">
+        <div class="row">
+        <span class="glyphicon glyphicon-plus add-shopping-item"></span>
+        </div>
+      </a>
+    </div>
+
+    <div class="list-group">
+      {{#each objects}}
+        {{#with joinWithLastUpdate}}
+          <a href="#" class="list-group-item">
+            <div class="row lists">
+              <div class="col-xs-6 col-sm-3">
+                {{#if editingDetails}}
+                  <div class="edit">
+                    <input class="input" id="details-input-{{_id}}" type="text" value="{{details}}" />
+                  </div>
+                {{else}}
+                  <div class="display">
+                    <a class="link {{_id}}" id="details" href="/{{_id}}">
+                      {{details}}
+                    </a>
+                  </div>
+                {{/if}}
+              </div>
+              <div class="col-xs-6 col-sm-3">
+                
+                {{#if editingName}}
+                  <div class="edit">
+                    <input class="input" id="name-input-{{_id}}" type="text" value="{{name}}" />
+                  </div>
+                {{else}}
+                  <div class="display">
+                    <a class="link {{_id}}" id="name" href="/{{_id}}">
+                      {{name}}
+                    </a>
+                  </div>
+                {{/if}}
+              </div>
+              <div class="col-xs-6 col-sm-3">
+                {{#if editingPrice}}
+                  <div class="edit">
+                    <input class="input" id="price-input-{{_id}}" type="text" value="{{price}}" />
+                  </div>
+                {{else}}
+                  <div class="display">
+                    <a class="link {{_id}}" id="price" href="/{{_id}}">
+                      {{formatMoney price}}
+                    </a>
+                  </div>
+                {{/if}}
+              </div>
+              <div class="col-xs-6 col-sm-3">
+                {{formatDate timestamp "relative"}} 
+                <a href="#" class="delete-item"><span class="glyphicon glyphicon-remove delete-icon"></span></a>
+              </div>
+            </div> 
+          </a>
+        {{/with}}
+      {{/each}}
+    </div><!--list group-->
+  </div><!--container-->
+</template>
+
+<template name="footer">
+  <div class="footer">
+      <div class="container">
+        <p class="text-muted">Made by Sebastian Ruiz.</p>
+      </div>
+    </div>
+</template>
+
+
+<template name="loading">
+  <div class="loading-spinner"></div>
+</template>
+<template name="notfound"></template>
